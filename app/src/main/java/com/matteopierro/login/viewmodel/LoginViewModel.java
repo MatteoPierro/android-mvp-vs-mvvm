@@ -10,14 +10,17 @@ import com.matteopierro.login.model.UserRepository;
 import io.reactivex.Observer;
 import io.reactivex.disposables.Disposable;
 
+import static com.matteopierro.login.viewmodel.FieldError.REQUIRED;
+import static com.matteopierro.login.viewmodel.FieldError.NO_ERROR;
+import static com.matteopierro.login.viewmodel.FieldError.WRONG_PASSWORD;
+
 public class LoginViewModel extends ViewModel {
 
     private MutableLiveData<Boolean> progress = new MutableLiveData<>();
     private MutableLiveData<FieldError> usernameError = new MutableLiveData<>();
-    private MutableLiveData<Boolean> passwordError = new MutableLiveData<>();
+    private MutableLiveData<FieldError> passwordError = new MutableLiveData<>();
 
     private UserRepository users;
-    private FindUserObserver findUserObserver = new FindUserObserver();
 
     public LoginViewModel(UserRepository users) {
         this.users = users;
@@ -31,7 +34,7 @@ public class LoginViewModel extends ViewModel {
         return usernameError;
     }
 
-    public LiveData<Boolean> passwordError() {
+    public LiveData<FieldError> passwordError() {
         return passwordError;
     }
 
@@ -45,22 +48,17 @@ public class LoginViewModel extends ViewModel {
 
         progress.setValue(true);
 
+        FindUserObserver findUserObserver = new FindUserObserver(password);
         users.findBy(username).subscribe(findUserObserver);
-    }
-
-    @Override
-    protected void onCleared() {
-        super.onCleared();
-        findUserObserver.dispose();
     }
 
     private void notifyErrors(String username, String password) {
         if (username.isEmpty()) {
-            usernameError.setValue(FieldError.EMPTY);
+            usernameError.setValue(REQUIRED);
         }
 
         if (password.isEmpty()) {
-            passwordError.setValue(true);
+            passwordError.setValue(REQUIRED);
         }
     }
 
@@ -70,21 +68,25 @@ public class LoginViewModel extends ViewModel {
 
 
     private void cleanErrors() {
-        usernameError.setValue(FieldError.NO_ERROR);
-        passwordError.setValue(false);
+        usernameError.setValue(NO_ERROR);
+        passwordError.setValue(NO_ERROR);
     }
 
     private class FindUserObserver implements Observer<User> {
-        private Disposable disposable;
+        private String password;
 
-        @Override
-        public void onSubscribe(Disposable disposable) {
-            this.disposable = disposable;
+        public FindUserObserver(String password) {
+            this.password = password;
         }
 
         @Override
-        public void onNext(User value) {
+        public void onSubscribe(Disposable disposable) { }
 
+        @Override
+        public void onNext(User user) {
+            if (!user.hasPassword(password)) {
+                passwordError.setValue(WRONG_PASSWORD);
+            }
         }
 
         @Override
@@ -96,11 +98,6 @@ public class LoginViewModel extends ViewModel {
         @Override
         public void onComplete() {
             progress.setValue(false);
-        }
-
-        public void dispose() {
-            if (disposable != null)
-                disposable.dispose();
         }
     }
 }

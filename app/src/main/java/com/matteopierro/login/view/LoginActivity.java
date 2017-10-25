@@ -3,7 +3,6 @@ package com.matteopierro.login.view;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -50,8 +49,8 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel = ViewModelProviders.of(this, loginViewModelFactory).get(LoginViewModel.class);
 
         loginViewModel.progress().observe(this, new ProgressObserver());
-        loginViewModel.usernameError().observe(this, new UsernameErrorObserver());
-        loginViewModel.passwordError().observe(this, new FieldRequiredObserver(passwordLayout));
+        loginViewModel.usernameError().observe(this, new FieldErrorObserver(usernameLayout));
+        loginViewModel.passwordError().observe(this, new FieldErrorObserver(passwordLayout));
     }
 
     @OnClick(R.id.sign_in_button)
@@ -72,38 +71,18 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
-    private class FieldRequiredObserver implements Observer<Boolean> {
+    private class FieldErrorObserver implements Observer<FieldError> {
+
         private TextInputLayout fieldLayout;
 
-        private FieldRequiredObserver(TextInputLayout fieldLayout) {
+        private FieldErrorObserver(TextInputLayout fieldLayout) {
             this.fieldLayout = fieldLayout;
         }
 
         @Override
-        public void onChanged(Boolean userError) {
-            fieldLayout.setError(getString(R.string.error_field_required));
-            fieldLayout.setErrorEnabled(userError);
-        }
-    }
-
-    private class UsernameErrorObserver implements Observer<FieldError> {
-
-        @Override
-        public void onChanged(@Nullable FieldError fieldError) {
-            if (fieldError == FieldError.NO_ERROR) {
-                usernameLayout.setErrorEnabled(false);
-            }
-
-            if (fieldError == FieldError.EMPTY) {
-                usernameLayout.setError(getString(R.string.error_field_required));
-                usernameLayout.setErrorEnabled(true);
-            }
-
-            if (fieldError == FieldError.INVALID_USERNAME) {
-                usernameLayout.setError(getString(R.string.error_invalid_username));
-                usernameLayout.setErrorEnabled(true);
-            }
+        public void onChanged(FieldError error) {
+            fieldLayout.setError(getString(error.stringId()));
+            fieldLayout.setErrorEnabled(error.isVisible());
         }
     }
 }
-

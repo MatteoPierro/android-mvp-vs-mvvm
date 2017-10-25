@@ -5,8 +5,6 @@ import android.arch.lifecycle.Observer;
 
 import com.matteopierro.login.model.User;
 import com.matteopierro.login.model.UserRepository;
-import com.matteopierro.login.viewmodel.FieldError;
-import com.matteopierro.login.viewmodel.LoginViewModel;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -17,8 +15,10 @@ import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
 import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
 
-import static com.matteopierro.login.viewmodel.FieldError.EMPTY;
+import static com.matteopierro.login.viewmodel.FieldError.REQUIRED;
 import static com.matteopierro.login.viewmodel.FieldError.INVALID_USERNAME;
 import static com.matteopierro.login.viewmodel.FieldError.NO_ERROR;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -37,7 +37,7 @@ public class LoginViewModelTest {
     @Mock
     private Observer<FieldError> usernameError;
     @Mock
-    private Observer<Boolean> passwordError;
+    private Observer<FieldError> passwordError;
 
     @Mock
     private UserRepository users;
@@ -67,21 +67,21 @@ public class LoginViewModelTest {
         loginViewModel.login("username", "password");
 
         verify(usernameError).onChanged(NO_ERROR);
-        verify(passwordError).onChanged(false);
+        verify(passwordError).onChanged(NO_ERROR);
     }
 
     @Test
     public void username_error_when_username_is_empty() throws Exception {
         loginViewModel.login("", "password");
 
-        verify(usernameError).onChanged(EMPTY);
+        verify(usernameError).onChanged(REQUIRED);
     }
 
     @Test
     public void password_error_when_username_is_empty() throws Exception {
         loginViewModel.login("username", "");
 
-        verify(passwordError).onChanged(true);
+        verify(passwordError).onChanged(REQUIRED);
     }
 
     @Test
@@ -92,5 +92,21 @@ public class LoginViewModelTest {
         loginViewModel.login("unknown username", "password");
 
         verify(usernameError).onChanged(INVALID_USERNAME);
+    }
+
+    @Test
+    public void password_error_when_password_is_wrong() throws Exception {
+        Observable<User> user = Observable.create(new ObservableOnSubscribe<User>() {
+            @Override
+            public void subscribe(ObservableEmitter<User> emitter) throws Exception {
+                emitter.onNext(new User("username", "password"));
+                emitter.onComplete();
+            }
+        });
+        when(users.findBy("username")).thenReturn(user);
+
+        loginViewModel.login("username", "wrong password");
+
+        verify(passwordError).onChanged(FieldError.WRONG_PASSWORD);
     }
 }
