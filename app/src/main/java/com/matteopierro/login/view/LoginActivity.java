@@ -2,13 +2,14 @@ package com.matteopierro.login.view;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
-import com.example.matteopierro.login.R;
+import com.matteopierro.login.R;
 import com.matteopierro.login.viewmodel.FieldError;
 import com.matteopierro.login.viewmodel.LoginViewModel;
 import com.matteopierro.login.viewmodel.LoginViewModelFactory;
@@ -51,6 +52,7 @@ public class LoginActivity extends AppCompatActivity {
         loginViewModel.progress().observe(this, new ProgressObserver());
         loginViewModel.usernameError().observe(this, new FieldErrorObserver(usernameLayout));
         loginViewModel.passwordError().observe(this, new FieldErrorObserver(passwordLayout));
+        loginViewModel.loginSuccess().observe(this, new LoginSuccessObserver());
     }
 
     @OnClick(R.id.sign_in_button)
@@ -83,6 +85,17 @@ public class LoginActivity extends AppCompatActivity {
         public void onChanged(FieldError error) {
             fieldLayout.setError(getString(error.stringId()));
             fieldLayout.setErrorEnabled(error.isVisible());
+        }
+    }
+
+    private class LoginSuccessObserver implements Observer<Boolean> {
+
+        @Override
+        public void onChanged(Boolean success) {
+            if (success) {
+                Intent intent = new Intent(LoginActivity.this, SuccessLoginActivity.class);
+                LoginActivity.this.startActivity(intent);
+            }
         }
     }
 }

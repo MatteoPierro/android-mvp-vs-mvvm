@@ -1,6 +1,6 @@
 package com.matteopierro.login.viewmodel;
 
-import com.example.matteopierro.login.R;
+import com.matteopierro.login.R;
 
 public enum FieldError {
     NO_ERROR(R.string.empty),

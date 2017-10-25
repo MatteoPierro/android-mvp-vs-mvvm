@@ -19,6 +19,7 @@ public class LoginViewModel extends ViewModel {
     private MutableLiveData<Boolean> progress = new MutableLiveData<>();
     private MutableLiveData<FieldError> usernameError = new MutableLiveData<>();
     private MutableLiveData<FieldError> passwordError = new MutableLiveData<>();
+    private MutableLiveData<Boolean> loginSuccess = new MutableLiveData<>();
 
     private UserRepository users;
 
@@ -36,6 +37,10 @@ public class LoginViewModel extends ViewModel {
 
     public LiveData<FieldError> passwordError() {
         return passwordError;
+    }
+
+    public LiveData<Boolean> loginSuccess() {
+        return loginSuccess;
     }
 
     public void login(String username, String password) {
@@ -86,7 +91,10 @@ public class LoginViewModel extends ViewModel {
         public void onNext(User user) {
             if (!user.hasPassword(password)) {
                 passwordError.setValue(WRONG_PASSWORD);
+                return;
             }
+
+            loginSuccess.setValue(true);
         }
 
         @Override

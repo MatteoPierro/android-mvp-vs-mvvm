@@ -38,6 +38,8 @@ public class LoginViewModelTest {
     private Observer<FieldError> usernameError;
     @Mock
     private Observer<FieldError> passwordError;
+    @Mock
+    private Observer<Boolean> loginSuccess;
 
     @Mock
     private UserRepository users;
@@ -51,6 +53,7 @@ public class LoginViewModelTest {
         loginViewModel.progress().observeForever(progress);
         loginViewModel.usernameError().observeForever(usernameError);
         loginViewModel.passwordError().observeForever(passwordError);
+        loginViewModel.loginSuccess().observeForever(loginSuccess);
     }
 
     @Test
@@ -108,5 +111,21 @@ public class LoginViewModelTest {
         loginViewModel.login("username", "wrong password");
 
         verify(passwordError).onChanged(FieldError.WRONG_PASSWORD);
+    }
+
+    @Test
+    public void login_success_when_username_and_password_are_correct() throws Exception {
+        Observable<User> user = Observable.create(new ObservableOnSubscribe<User>() {
+            @Override
+            public void subscribe(ObservableEmitter<User> emitter) throws Exception {
+                emitter.onNext(new User("username", "password"));
+                emitter.onComplete();
+            }
+        });
+        when(users.findBy("username")).thenReturn(user);
+
+        loginViewModel.login("username", "password");
+
+        verify(loginSuccess).onChanged(true);
     }
 }

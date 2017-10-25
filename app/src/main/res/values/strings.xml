@@ -2,7 +2,7 @@
     <string name="app_name">example-mvp-viewmodel</string>
     <string name="title_activity_login">Sign in</string>
 
-    <string name="empty"/>
+    <string name="empty" />
 
     <!-- Strings related to login -->
     <string name="prompt_username">Username</string>
@@ -16,4 +16,5 @@
     <string name="permission_rationale">"Contacts permissions are needed for providing email
         completions."
     </string>
+    <string name="login_success">Login Success</string>
 </resources>
