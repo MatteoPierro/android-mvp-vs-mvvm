@@ -1,8 +1,7 @@
-package login.presenter;
+package com.matteopierro.login.presenter;
 
 import com.matteopierro.login.model.User;
 import com.matteopierro.login.model.UserRepository;
-import com.matteopierro.login.presenter.LoginPresenter;
 import com.matteopierro.login.view.LoginRouter;
 import com.matteopierro.login.view.PasswordErrorView;
 import com.matteopierro.login.view.ProgressView;
