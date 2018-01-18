@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.matteopierro.login.R;
+import com.matteopierro.login.model.FakeUserRepository;
 import com.matteopierro.login.model.UserRepository;
 import com.matteopierro.login.presenter.LoginPresenter;
 
