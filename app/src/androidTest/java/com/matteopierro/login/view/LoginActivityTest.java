@@ -29,12 +29,10 @@ public class LoginActivityTest {
 
     @Rule
     public ActivityTestRule<LoginActivity> activityRule = new ActivityTestRule<>(LoginActivity.class);
-
-
+    
     @Test
     public void loginSuccessForValidCredentials() throws Exception {
         insertUsername("valid_user");
-
         insertPassword("valid_password");
 
         clickLogin();
@@ -45,7 +43,6 @@ public class LoginActivityTest {
     @Test
     public void unknownUsernameForAnInvalidUsername() throws Exception {
         insertUsername("invalid_user");
-
         insertPassword("valid_password");
 
         clickLogin();
