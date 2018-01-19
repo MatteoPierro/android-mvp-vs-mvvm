@@ -44,7 +44,7 @@ public class LoginActivity extends Activity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        ProgressView androidProgressView = new AndroidProgressView();
+        ProgressView androidProgressView = new AndroidProgressView(loginFormView, progressView);
         UsernameErrorView usernameErrorView = new AndroidUsernameErrorView();
         PasswordErrorView passwordErrorView = new AndroidPasswordErrorView();
         LoginRouter loginRouter = new AndroidLoginRouter();
@@ -59,20 +59,6 @@ public class LoginActivity extends Activity {
         String password = passwordTextView.getText().toString();
 
         loginPresenter.login(username, password);
-    }
-
-    private class AndroidProgressView implements ProgressView {
-        @Override
-        public void show() {
-            loginFormView.setVisibility(View.GONE);
-            progressView.setVisibility(View.VISIBLE);
-        }
-
-        @Override
-        public void hide() {
-            loginFormView.setVisibility(View.VISIBLE);
-            progressView.setVisibility(View.GONE);
-        }
     }
 
     private class AndroidUsernameErrorView implements UsernameErrorView {
