@@ -25,11 +25,11 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 
 @RunWith(AndroidJUnit4.class)
 @LargeTest
-public class LoginActivityTest {
+public class LoginActivityUITest {
 
     @Rule
     public ActivityTestRule<LoginActivity> activityRule = new ActivityTestRule<>(LoginActivity.class);
-    
+
     @Test
     public void loginSuccessForValidCredentials() throws Exception {
         insertUsername("valid_user");
