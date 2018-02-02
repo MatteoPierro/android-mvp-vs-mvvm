@@ -6,4 +6,6 @@ package com.matteopierro.login.view;
 
 public interface UsernameErrorView {
     void empty();
+
+    void clean();
 }

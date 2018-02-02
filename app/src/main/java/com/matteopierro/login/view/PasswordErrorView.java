@@ -7,4 +7,6 @@ package com.matteopierro.login.view;
 public interface PasswordErrorView {
 
     void empty();
+
+    void clean();
 }

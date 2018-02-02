@@ -36,6 +36,8 @@ public class LoginPresenter {
             return;
         }
 
+        usernameErrorView.clean();
+        passwordErrorView.clean();
         FindUserObserver findUserObserver = new FindUserObserver(password);
         repository.findBy(username).subscribe(findUserObserver);
     }

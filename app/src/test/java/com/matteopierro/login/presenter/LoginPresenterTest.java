@@ -36,16 +36,13 @@ public class LoginPresenterTest {
 
     @Mock
     private PasswordErrorView passwordErrorView;
+
     private LoginPresenter presenter;
 
     @Before
     public void setUp() throws Exception {
         presenter = new LoginPresenter(passwordErrorView, usernameErrorView, loginRouter, repository);
 
-    }
-
-    @Test
-    public void login_success_when_username_and_password_are_correct() throws Exception {
         Observable<User> user = Observable.create(new ObservableOnSubscribe<User>() {
             @Override
             public void subscribe(ObservableEmitter<User> emitter) throws Exception {
@@ -55,6 +52,11 @@ public class LoginPresenterTest {
         });
 
         when(repository.findBy(VALID_USERNAME)).thenReturn(user);
+    }
+
+    @Test
+    public void login_success_when_username_and_password_are_correct() throws Exception {
+
 
         presenter.login(VALID_USERNAME, VALID_PASSWORD);
 
@@ -73,5 +75,13 @@ public class LoginPresenterTest {
         presenter.login("valid_user", "");
 
         verify(passwordErrorView).empty();
+    }
+
+    @Test
+    public void view_should_clean_all_errors_at_login() throws Exception {
+        presenter.login(VALID_USERNAME, VALID_PASSWORD);
+
+        verify(usernameErrorView).clean();
+        verify(passwordErrorView).clean();
     }
 }
