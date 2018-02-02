@@ -3,6 +3,7 @@ package com.matteopierro.login.presenter;
 import com.matteopierro.login.model.User;
 import com.matteopierro.login.model.UserRepository;
 import com.matteopierro.login.view.LoginRouter;
+import com.matteopierro.login.view.PasswordErrorView;
 import com.matteopierro.login.view.UsernameErrorView;
 
 import org.junit.Test;
@@ -14,7 +15,6 @@ import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
 import io.reactivex.ObservableOnSubscribe;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -33,6 +33,9 @@ public class LoginPresenterTest {
     @Mock
     private UsernameErrorView usernameErrorView;
 
+    @Mock
+    private PasswordErrorView passwordErrorView;
+
 
     @Test
     public void login_success_when_username_and_password_are_correct() throws Exception {
@@ -45,7 +48,7 @@ public class LoginPresenterTest {
         });
 
         when(repository.findBy(VALID_USERNAME)).thenReturn(user);
-        LoginPresenter presenter = new LoginPresenter(usernameErrorView, loginRouter, repository);
+        LoginPresenter presenter = new LoginPresenter(passwordErrorView, usernameErrorView, loginRouter, repository);
 
         presenter.login(VALID_USERNAME, VALID_PASSWORD);
 
@@ -55,10 +58,20 @@ public class LoginPresenterTest {
     @Test
     public void username_error_when_username_is_empty() throws Exception {
 
-        LoginPresenter presenter = new LoginPresenter(usernameErrorView, loginRouter, repository);
+        LoginPresenter presenter = new LoginPresenter(passwordErrorView, usernameErrorView, loginRouter, repository);
 
         presenter.login("", "a password");
 
         verify(usernameErrorView).empty();
+    }
+
+    @Test
+    public void password_error_when_username_is_empty() throws Exception {
+
+        LoginPresenter presenter = new LoginPresenter(passwordErrorView, usernameErrorView, loginRouter, repository);
+
+        presenter.login("valid_user", "");
+
+        verify(passwordErrorView).empty();
     }
 }
