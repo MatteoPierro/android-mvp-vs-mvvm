@@ -1,7 +1,4 @@
-package com.matteopierro.login.view;
-
-import com.matteopierro.login.model.User;
-import com.matteopierro.login.model.UserRepository;
+package com.matteopierro.login.model;
 
 import java.util.HashMap;
 import java.util.Map;
