@@ -6,6 +6,7 @@ import com.matteopierro.login.view.LoginRouter;
 import com.matteopierro.login.view.PasswordErrorView;
 import com.matteopierro.login.view.UsernameErrorView;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -35,7 +36,13 @@ public class LoginPresenterTest {
 
     @Mock
     private PasswordErrorView passwordErrorView;
+    private LoginPresenter presenter;
 
+    @Before
+    public void setUp() throws Exception {
+        presenter = new LoginPresenter(passwordErrorView, usernameErrorView, loginRouter, repository);
+
+    }
 
     @Test
     public void login_success_when_username_and_password_are_correct() throws Exception {
@@ -48,7 +55,6 @@ public class LoginPresenterTest {
         });
 
         when(repository.findBy(VALID_USERNAME)).thenReturn(user);
-        LoginPresenter presenter = new LoginPresenter(passwordErrorView, usernameErrorView, loginRouter, repository);
 
         presenter.login(VALID_USERNAME, VALID_PASSWORD);
 
@@ -57,9 +63,6 @@ public class LoginPresenterTest {
 
     @Test
     public void username_error_when_username_is_empty() throws Exception {
-
-        LoginPresenter presenter = new LoginPresenter(passwordErrorView, usernameErrorView, loginRouter, repository);
-
         presenter.login("", "a password");
 
         verify(usernameErrorView).empty();
@@ -67,9 +70,6 @@ public class LoginPresenterTest {
 
     @Test
     public void password_error_when_username_is_empty() throws Exception {
-
-        LoginPresenter presenter = new LoginPresenter(passwordErrorView, usernameErrorView, loginRouter, repository);
-
         presenter.login("valid_user", "");
 
         verify(passwordErrorView).empty();
