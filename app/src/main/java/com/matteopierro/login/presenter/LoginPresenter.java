@@ -25,20 +25,19 @@ public class LoginPresenter {
     }
 
     public void login(String username, String password) {
-        FindUserObserver findUserObserver = new FindUserObserver(password);
 
-        if(isValid(username) && isValid(password)) {
-            repository.findBy(username).subscribe(findUserObserver);
-        } else {
-            if (!isValid(username)){
+        if (!isValid(username)) {
             usernameErrorView.empty();
-            }
-            else if(!isValid(password)) {
-                passwordErrorView.empty();
-            }
+            return;
         }
 
+        if (!isValid(password)) {
+            passwordErrorView.empty();
+            return;
+        }
 
+        FindUserObserver findUserObserver = new FindUserObserver(password);
+        repository.findBy(username).subscribe(findUserObserver);
     }
 
     private boolean isValid(String str) {
@@ -60,7 +59,7 @@ public class LoginPresenter {
 
         @Override
         public void onNext(User user) {
-            if(user.hasPassword(password)) {
+            if (user.hasPassword(password)) {
                 loginRouter.success();
             }
         }
