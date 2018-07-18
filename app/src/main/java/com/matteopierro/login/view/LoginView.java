@@ -4,4 +4,6 @@ public interface LoginView {
     void displayEmptyUserNameError();
 
     void clearErrors();
+
+    void displayEmptyPasswordError();
 }

@@ -25,21 +25,28 @@ public class LoginPresenterTest {
 
     @Test
     public void shouldDisplayEmptyUsernameErrorWhenUsernameEmpty() {
-        presenter.login("");
+        presenter.login("", "password");
 
         verify(view).displayEmptyUserNameError();
     }
 
     @Test
     public void shouldNotDisplayEmptyUsernameErrorWhenUsernameIsNotEmpty() {
-        presenter.login("username");
+        presenter.login("username", "password");
 
         verify(view, never()).displayEmptyUserNameError();
     }
 
     @Test
+    public void shouldDisplayEmptyPasswordErrorWhenPasswordEmpty() {
+        presenter.login("username", "");
+
+        verify(view).displayEmptyPasswordError();
+    }
+
+    @Test
     public void shouldClearErrorsAtLogin() {
-        presenter.login("username");
+        presenter.login("username", "password");
 
         verify(view).clearErrors();
     }

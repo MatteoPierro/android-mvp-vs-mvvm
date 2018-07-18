@@ -9,11 +9,13 @@ public class LoginPresenter {
         this.view = view;
     }
 
-    public void login(String username) {
+    public void login(String username, String password) {
         view.clearErrors();
 
         if (username.isEmpty()) {
             view.displayEmptyUserNameError();
         }
+
+        view.displayEmptyPasswordError();
     }
 }
