@@ -67,4 +67,11 @@ public class LoginPresenterTest {
 
         verify(repository).findBy("username");
     }
+
+    @Test
+    public void shouldNotRequestUserWhenUsernameOrPasswordIsEmpty() {
+        presenter.login("", "");
+
+        verify(repository, never()).findBy("");
+    }
 }

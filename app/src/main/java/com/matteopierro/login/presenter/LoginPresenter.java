@@ -23,6 +23,8 @@ public class LoginPresenter {
             view.displayEmptyPasswordError();
         }
 
-        repository.findBy(username);
+        if (!username.isEmpty() && !password.isEmpty()) {
+            repository.findBy(username);
+        }
     }
 }
