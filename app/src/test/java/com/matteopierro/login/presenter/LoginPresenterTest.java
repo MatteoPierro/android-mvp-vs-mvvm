@@ -15,6 +15,9 @@ import static org.mockito.Mockito.verify;
 @RunWith(MockitoJUnitRunner.class)
 public class LoginPresenterTest {
 
+    public static final String EMPTY_FIELD = "";
+    public static final String A_USERNAME = "username";
+    public static final String A_PASSWORD = "password";
     @Mock
     private LoginView view;
     @Mock
@@ -28,50 +31,50 @@ public class LoginPresenterTest {
 
     @Test
     public void shouldDisplayEmptyUsernameErrorWhenUsernameEmpty() {
-        presenter.login("", "password");
+        presenter.login(EMPTY_FIELD, A_PASSWORD);
 
         verify(view).displayEmptyUserNameError();
     }
 
     @Test
     public void shouldNotDisplayEmptyUsernameErrorWhenUsernameIsNotEmpty() {
-        presenter.login("username", "password");
+        presenter.login(A_USERNAME, A_PASSWORD);
 
         verify(view, never()).displayEmptyUserNameError();
     }
 
     @Test
     public void shouldDisplayEmptyPasswordErrorWhenPasswordEmpty() {
-        presenter.login("username", "");
+        presenter.login(A_USERNAME, EMPTY_FIELD);
 
         verify(view).displayEmptyPasswordError();
     }
 
     @Test
     public void shouldNotDisplayEmptyPasswordErrorWhenPasswordIsNotEmpty() {
-        presenter.login("username", "password");
+        presenter.login(A_USERNAME, A_PASSWORD);
 
         verify(view, never()).displayEmptyPasswordError();
     }
 
     @Test
     public void shouldClearErrorsAtLogin() {
-        presenter.login("username", "password");
+        presenter.login(A_USERNAME, A_PASSWORD);
 
         verify(view).clearErrors();
     }
 
     @Test
     public void shouldRequestUserWhenUsernameAndPasswordAreNotEmpty() {
-        presenter.login("username", "password");
+        presenter.login(A_USERNAME, A_PASSWORD);
 
-        verify(repository).findBy("username");
+        verify(repository).findBy(A_USERNAME);
     }
 
     @Test
     public void shouldNotRequestUserWhenUsernameOrPasswordIsEmpty() {
-        presenter.login("", "");
+        presenter.login(EMPTY_FIELD, EMPTY_FIELD);
 
-        verify(repository, never()).findBy("");
+        verify(repository, never()).findBy(EMPTY_FIELD);
     }
 }
