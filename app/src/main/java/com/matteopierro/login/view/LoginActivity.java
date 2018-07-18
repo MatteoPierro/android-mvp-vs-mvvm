@@ -7,12 +7,13 @@ import android.view.View;
 import android.widget.EditText;
 
 import com.matteopierro.login.R;
+import com.matteopierro.login.presenter.LoginPresenter;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @BindView(R.id.username_layout)
     public TextInputLayout usernameLayout;
@@ -32,17 +33,26 @@ public class LoginActivity extends AppCompatActivity {
     @BindView(R.id.login_form)
     public View loginFormView;
 
+    private LoginPresenter presenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        presenter = new LoginPresenter(this);
     }
 
     @OnClick(R.id.sign_in_button)
     public void login() {
         String username = usernameTextView.getText().toString();
         String password = passwordTextView.getText().toString();
+        presenter.login(username);
+    }
+
+    @Override
+    public void displayEmptyUserNameError() {
+        usernameLayout.setError("Username should not be empty");
     }
 }
 

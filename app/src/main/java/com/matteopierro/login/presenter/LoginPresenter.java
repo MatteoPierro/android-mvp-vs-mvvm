@@ -2,7 +2,7 @@ package com.matteopierro.login.presenter;
 
 import com.matteopierro.login.view.LoginView;
 
-class LoginPresenter {
+public class LoginPresenter {
     private final LoginView view;
 
     public LoginPresenter(LoginView view) {
