@@ -10,6 +10,8 @@ class LoginPresenter {
     }
 
     public void login(String username) {
-        view.displayEmptyUserNameError();
+        if (username.isEmpty()) {
+            view.displayEmptyUserNameError();
+        }
     }
 }

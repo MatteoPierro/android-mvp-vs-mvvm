@@ -5,6 +5,7 @@ import com.matteopierro.login.view.LoginView;
 import org.junit.Test;
 
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 
 public class LoginPresenterTest {
@@ -16,5 +17,15 @@ public class LoginPresenterTest {
         presenter.login("");
 
         verify(view).displayEmptyUserNameError();
+    }
+
+    @Test
+    public void shouldNotDisplayEmptyUsernameErrorWhenUsernameIsNotEmpty() {
+        LoginView view = mock(LoginView.class);
+        LoginPresenter presenter = new LoginPresenter(view);
+
+        presenter.login("username");
+
+        verify(view, never()).displayEmptyUserNameError();
     }
 }
