@@ -36,4 +36,11 @@ public class LoginPresenterTest {
 
         verify(view, never()).displayEmptyUserNameError();
     }
+
+    @Test
+    public void shouldClearErrorsAtLogin() {
+        presenter.login("username");
+
+        verify(view).clearErrors();
+    }
 }
