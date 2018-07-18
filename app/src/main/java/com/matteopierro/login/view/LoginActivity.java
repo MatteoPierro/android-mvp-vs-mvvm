@@ -40,7 +40,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        presenter = new LoginPresenter(this);
+        presenter = new LoginPresenter(this, new FakeUserRepository());
     }
 
     @OnClick(R.id.sign_in_button)

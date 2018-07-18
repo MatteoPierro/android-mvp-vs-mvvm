@@ -1,5 +1,6 @@
 package com.matteopierro.login.presenter;
 
+import com.matteopierro.login.model.UserRepository;
 import com.matteopierro.login.view.LoginView;
 
 import org.junit.Before;
@@ -16,11 +17,13 @@ public class LoginPresenterTest {
 
     @Mock
     private LoginView view;
+    @Mock
+    private UserRepository repository;
     private LoginPresenter presenter;
 
     @Before
     public void setUp() throws Exception {
-        presenter = new LoginPresenter(view);
+        presenter = new LoginPresenter(view, repository);
     }
 
     @Test
@@ -56,5 +59,12 @@ public class LoginPresenterTest {
         presenter.login("username", "password");
 
         verify(view).clearErrors();
+    }
+
+    @Test
+    public void shouldRequestUserWhenUsernameAndPasswordAreNotEmpty() {
+        presenter.login("username", "password");
+
+        verify(repository).findBy("username");
     }
 }
