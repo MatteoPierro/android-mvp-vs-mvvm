@@ -15,16 +15,25 @@ public class LoginPresenter {
     public void login(String username, String password) {
         view.clearErrors();
 
+        if (areEmpty(username, password)) {
+            displayEmptyErrors(username, password);
+            return;
+        }
+
+        repository.findBy(username);
+    }
+
+    private boolean areEmpty(String username, String password) {
+        return username.isEmpty() || password.isEmpty();
+    }
+
+    private void displayEmptyErrors(String username, String password) {
         if (username.isEmpty()) {
             view.displayEmptyUserNameError();
         }
 
         if (password.isEmpty()) {
             view.displayEmptyPasswordError();
-        }
-
-        if (!username.isEmpty() && !password.isEmpty()) {
-            repository.findBy(username);
         }
     }
 }
