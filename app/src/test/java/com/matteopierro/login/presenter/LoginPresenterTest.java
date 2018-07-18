@@ -45,6 +45,13 @@ public class LoginPresenterTest {
     }
 
     @Test
+    public void shouldNotDisplayEmptyPasswordErrorWhenPasswordIsNotEmpty() {
+        presenter.login("username", "password");
+
+        verify(view, never()).displayEmptyPasswordError();
+    }
+
+    @Test
     public void shouldClearErrorsAtLogin() {
         presenter.login("username", "password");
 

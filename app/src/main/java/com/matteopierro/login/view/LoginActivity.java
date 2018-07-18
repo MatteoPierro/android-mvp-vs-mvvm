@@ -47,7 +47,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     public void login() {
         String username = usernameTextView.getText().toString();
         String password = passwordTextView.getText().toString();
-        presenter.login(username, "password");
+        presenter.login(username, password);
     }
 
     @Override
@@ -56,13 +56,14 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
-    public void clearErrors() {
-        usernameLayout.setError("");
+    public void displayEmptyPasswordError() {
+        passwordLayout.setError("Password should not be empty");
     }
 
     @Override
-    public void displayEmptyPasswordError() {
-
+    public void clearErrors() {
+        usernameLayout.setError("");
+        passwordLayout.setError("");
     }
 }
 

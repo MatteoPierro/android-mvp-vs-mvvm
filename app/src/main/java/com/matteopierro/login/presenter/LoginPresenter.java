@@ -16,6 +16,8 @@ public class LoginPresenter {
             view.displayEmptyUserNameError();
         }
 
-        view.displayEmptyPasswordError();
+        if (password.isEmpty()) {
+            view.displayEmptyPasswordError();
+        }
     }
 }
