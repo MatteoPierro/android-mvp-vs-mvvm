@@ -25,6 +25,8 @@ public class LoginPresenterTest {
     public static final String EMPTY_FIELD = "";
     public static final String A_USERNAME = "username";
     public static final String A_PASSWORD = "password";
+    public static final String CORRECT_USERNAME = "correct username";
+    public static final String CORRECT_PASSWORD = "correct password";
     @Mock
     private LoginView view;
     @Mock
@@ -88,17 +90,21 @@ public class LoginPresenterTest {
 
     @Test
     public void shouldDisplayLoginSuccessWhenUsernameAndPasswordAreCorrect() {
-        Observable<User> observableUser = Observable.create(new ObservableOnSubscribe<User>() {
-            @Override
-            public void subscribe(ObservableEmitter<User> emitter) throws Exception {
-                emitter.onNext(new User("correct username", "correct password"));
-                emitter.onComplete();
-            }
-        });
-        when(repository.findBy("correct username")).thenReturn(observableUser);
+        Observable<User> observableUser = anObservableUserWith(CORRECT_USERNAME, CORRECT_PASSWORD);
+        when(repository.findBy(CORRECT_USERNAME)).thenReturn(observableUser);
 
-        presenter.login("correct username", "correct password");
+        presenter.login(CORRECT_USERNAME, CORRECT_PASSWORD);
 
         verify(view).displayLoginSuccess();
+    }
+
+    private Observable<User> anObservableUserWith(final String username, final String password) {
+        return Observable.create(new ObservableOnSubscribe<User>() {
+                @Override
+                public void subscribe(ObservableEmitter<User> emitter) throws Exception {
+                    emitter.onNext(new User(username, password));
+                    emitter.onComplete();
+                }
+            });
     }
 }
