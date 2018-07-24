@@ -1,5 +1,6 @@
 package com.matteopierro.login.view;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
@@ -62,7 +63,7 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void displayLoginSuccess() {
-
+        startActivity(new Intent(this, SuccessLoginActivity.class));
     }
 
     @Override
