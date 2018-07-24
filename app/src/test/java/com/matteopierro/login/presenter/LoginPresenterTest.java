@@ -27,6 +27,8 @@ public class LoginPresenterTest {
     public static final String A_PASSWORD = "password";
     public static final String CORRECT_USERNAME = "correct username";
     public static final String CORRECT_PASSWORD = "correct password";
+    public static final String WRONG_PASSWORD = "wrong password";
+    public static final String UNKNOWN_USERNAME = "unknown username";
     @Mock
     private LoginView view;
     @Mock
@@ -103,7 +105,7 @@ public class LoginPresenterTest {
         Observable<User> observableUser = anObservableUserWith(CORRECT_USERNAME, CORRECT_PASSWORD);
         when(repository.findBy(CORRECT_USERNAME)).thenReturn(observableUser);
 
-        presenter.login(CORRECT_USERNAME, "wrong password");
+        presenter.login(CORRECT_USERNAME, WRONG_PASSWORD);
 
         verify(view).displayIncorrectPasswordError();
         verify(view,never()).displayLoginSuccess();
@@ -111,10 +113,10 @@ public class LoginPresenterTest {
 
     @Test
     public void shouldDisplayUsernameUnknownErrorWhenThereIsNoUserWithGivenUsername() {
-        Observable<User> observableError = Observable.error(new IllegalArgumentException("unknown username"));
-        when(repository.findBy("unknown username")).thenReturn(observableError);
+        Observable<User> observableError = Observable.error(new IllegalArgumentException(UNKNOWN_USERNAME));
+        when(repository.findBy(UNKNOWN_USERNAME)).thenReturn(observableError);
 
-        presenter.login("unknown username", A_PASSWORD);
+        presenter.login(UNKNOWN_USERNAME, A_PASSWORD);
 
         verify(view).displayUnknownUsernameError();
     }

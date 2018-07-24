@@ -26,31 +26,7 @@ public class LoginPresenter {
         }
 
         Observable<User> userObservable = repository.findBy(username);
-        userObservable.subscribe(new Observer<User>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-
-            }
-
-            @Override
-            public void onNext(User user) {
-                if (user.hasPassword(password)) {
-                    view.displayLoginSuccess();
-                } else {
-                    view.displayIncorrectPasswordError();
-                }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                view.displayUnknownUsernameError();
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        });
+        userObservable.subscribe(new UserObserver(password));
     }
 
     private boolean areEmpty(String username, String password) {
@@ -64,6 +40,38 @@ public class LoginPresenter {
 
         if (password.isEmpty()) {
             view.displayEmptyPasswordError();
+        }
+    }
+
+    private class UserObserver implements Observer<User> {
+        private final String password;
+
+        public UserObserver(String password) {
+            this.password = password;
+        }
+
+        @Override
+        public void onSubscribe(Disposable d) {
+
+        }
+
+        @Override
+        public void onNext(User user) {
+            if (user.hasPassword(password)) {
+                view.displayLoginSuccess();
+            } else {
+                view.displayIncorrectPasswordError();
+            }
+        }
+
+        @Override
+        public void onError(Throwable e) {
+            view.displayUnknownUsernameError();
+        }
+
+        @Override
+        public void onComplete() {
+
         }
     }
 }
