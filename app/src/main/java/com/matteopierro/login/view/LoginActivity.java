@@ -62,13 +62,13 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
-    public void displayLoginSuccess() {
-        startActivity(new Intent(this, SuccessLoginActivity.class));
+    public void displayIncorrectPasswordError() {
+        passwordLayout.setError("Password is incorrect");
     }
 
     @Override
-    public void displayIncorrectPasswordError() {
-
+    public void displayLoginSuccess() {
+        startActivity(new Intent(this, SuccessLoginActivity.class));
     }
 
     @Override
