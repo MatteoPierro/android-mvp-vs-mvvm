@@ -1,7 +1,12 @@
 package com.matteopierro.login.presenter;
 
+import com.matteopierro.login.model.User;
 import com.matteopierro.login.model.UserRepository;
 import com.matteopierro.login.view.LoginView;
+
+import io.reactivex.Observable;
+import io.reactivex.Observer;
+import io.reactivex.disposables.Disposable;
 
 public class LoginPresenter {
     private final LoginView view;
@@ -20,7 +25,28 @@ public class LoginPresenter {
             return;
         }
 
-        repository.findBy(username);
+        Observable<User> userObservable = repository.findBy(username);
+        userObservable.subscribe(new Observer<User>() {
+            @Override
+            public void onSubscribe(Disposable d) {
+
+            }
+
+            @Override
+            public void onNext(User value) {
+                view.displayLoginSuccess();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
+            }
+        });
     }
 
     private boolean areEmpty(String username, String password) {

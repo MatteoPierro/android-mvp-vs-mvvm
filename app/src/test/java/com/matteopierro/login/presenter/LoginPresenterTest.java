@@ -1,5 +1,6 @@
 package com.matteopierro.login.presenter;
 
+import com.matteopierro.login.model.User;
 import com.matteopierro.login.model.UserRepository;
 import com.matteopierro.login.view.LoginView;
 
@@ -9,8 +10,14 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 
+import io.reactivex.Observable;
+import io.reactivex.ObservableEmitter;
+import io.reactivex.ObservableOnSubscribe;
+
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class LoginPresenterTest {
@@ -27,6 +34,7 @@ public class LoginPresenterTest {
     @Before
     public void setUp() throws Exception {
         presenter = new LoginPresenter(view, repository);
+        when(repository.findBy(anyString())).thenReturn(Observable.<User>empty());
     }
 
     @Test
@@ -76,5 +84,21 @@ public class LoginPresenterTest {
         presenter.login(EMPTY_FIELD, EMPTY_FIELD);
 
         verify(repository, never()).findBy(EMPTY_FIELD);
+    }
+
+    @Test
+    public void shouldDisplayLoginSuccessWhenUsernameAndPasswordAreCorrect() {
+        Observable<User> observableUser = Observable.create(new ObservableOnSubscribe<User>() {
+            @Override
+            public void subscribe(ObservableEmitter<User> emitter) throws Exception {
+                emitter.onNext(new User("correct username", "correct password"));
+                emitter.onComplete();
+            }
+        });
+        when(repository.findBy("correct username")).thenReturn(observableUser);
+
+        presenter.login("correct username", "correct password");
+
+        verify(view).displayLoginSuccess();
     }
 }

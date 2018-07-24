@@ -6,4 +6,6 @@ public interface LoginView {
     void clearErrors();
 
     void displayEmptyPasswordError();
+
+    void displayLoginSuccess();
 }
