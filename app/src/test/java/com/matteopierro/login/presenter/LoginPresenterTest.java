@@ -22,13 +22,13 @@ import static org.mockito.Mockito.when;
 @RunWith(MockitoJUnitRunner.class)
 public class LoginPresenterTest {
 
-    public static final String EMPTY_FIELD = "";
-    public static final String A_USERNAME = "username";
-    public static final String A_PASSWORD = "password";
-    public static final String CORRECT_USERNAME = "correct username";
-    public static final String CORRECT_PASSWORD = "correct password";
-    public static final String WRONG_PASSWORD = "wrong password";
-    public static final String UNKNOWN_USERNAME = "unknown username";
+    private static final String EMPTY_FIELD = "";
+    private static final String A_USERNAME = "username";
+    private static final String A_PASSWORD = "password";
+    private static final String CORRECT_USERNAME = "correct username";
+    private static final String CORRECT_PASSWORD = "correct password";
+    private static final String WRONG_PASSWORD = "wrong password";
+    private static final String UNKNOWN_USERNAME = "unknown username";
     @Mock
     private LoginView view;
     @Mock
@@ -36,7 +36,7 @@ public class LoginPresenterTest {
     private LoginPresenter presenter;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         presenter = new LoginPresenter(view, repository);
         when(repository.findBy(anyString())).thenReturn(Observable.<User>empty());
     }
@@ -124,7 +124,7 @@ public class LoginPresenterTest {
     private Observable<User> anObservableUserWith(final String username, final String password) {
         return Observable.create(new ObservableOnSubscribe<User>() {
                 @Override
-                public void subscribe(ObservableEmitter<User> emitter) throws Exception {
+                public void subscribe(ObservableEmitter<User> emitter) {
                     emitter.onNext(new User(username, password));
                     emitter.onComplete();
                 }

@@ -46,7 +46,7 @@ public class LoginPresenter {
     private class UserObserver implements Observer<User> {
         private final String password;
 
-        public UserObserver(String password) {
+        UserObserver(String password) {
             this.password = password;
         }
 
