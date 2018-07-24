@@ -106,6 +106,7 @@ public class LoginPresenterTest {
         presenter.login(CORRECT_USERNAME, "wrong password");
 
         verify(view).displayIncorrectPasswordError();
+        verify(view,never()).displayLoginSuccess();
     }
 
     private Observable<User> anObservableUserWith(final String username, final String password) {
