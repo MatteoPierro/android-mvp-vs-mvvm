@@ -109,6 +109,16 @@ public class LoginPresenterTest {
         verify(view,never()).displayLoginSuccess();
     }
 
+    @Test
+    public void shouldDisplayUsernameUnknownErrorWhenThereIsNoUserWithGivenUsername() {
+        Observable<User> observableError = Observable.error(new IllegalArgumentException("unknown username"));
+        when(repository.findBy("unknown username")).thenReturn(observableError);
+
+        presenter.login("unknown username", A_PASSWORD);
+
+        verify(view).displayUnknownUsernameError();
+    }
+
     private Observable<User> anObservableUserWith(final String username, final String password) {
         return Observable.create(new ObservableOnSubscribe<User>() {
                 @Override

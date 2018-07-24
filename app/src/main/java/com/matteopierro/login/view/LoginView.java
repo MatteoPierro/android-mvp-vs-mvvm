@@ -1,13 +1,15 @@
 package com.matteopierro.login.view;
 
 public interface LoginView {
+    void clearErrors();
+
     void displayEmptyUserNameError();
 
-    void clearErrors();
+    void displayUnknownUsernameError();
 
     void displayEmptyPasswordError();
 
-    void displayLoginSuccess();
-
     void displayIncorrectPasswordError();
+
+    void displayLoginSuccess();
 }

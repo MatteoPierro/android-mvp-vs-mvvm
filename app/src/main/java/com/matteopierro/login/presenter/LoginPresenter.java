@@ -43,7 +43,7 @@ public class LoginPresenter {
 
             @Override
             public void onError(Throwable e) {
-
+                view.displayUnknownUsernameError();
             }
 
             @Override

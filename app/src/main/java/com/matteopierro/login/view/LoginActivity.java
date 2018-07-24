@@ -57,6 +57,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
+    public void displayUnknownUsernameError() {
+        usernameLayout.setError("Unknown username");
+    }
+
+    @Override
     public void displayEmptyPasswordError() {
         passwordLayout.setError("Password should not be empty");
     }
