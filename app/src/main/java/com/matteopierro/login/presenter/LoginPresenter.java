@@ -17,7 +17,7 @@ public class LoginPresenter {
         this.repository = repository;
     }
 
-    public void login(String username, String password) {
+    public void login(String username, final String password) {
         view.clearErrors();
 
         if (areEmpty(username, password)) {
@@ -33,8 +33,12 @@ public class LoginPresenter {
             }
 
             @Override
-            public void onNext(User value) {
-                view.displayLoginSuccess();
+            public void onNext(User user) {
+                if (user.hasPassword(password)) {
+                    view.displayLoginSuccess();
+                } else {
+                    view.displayIncorrectPasswordError();
+                }
             }
 
             @Override

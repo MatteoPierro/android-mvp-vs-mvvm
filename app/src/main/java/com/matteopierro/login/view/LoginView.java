@@ -8,4 +8,6 @@ public interface LoginView {
     void displayEmptyPasswordError();
 
     void displayLoginSuccess();
+
+    void displayIncorrectPasswordError();
 }

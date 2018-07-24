@@ -98,6 +98,16 @@ public class LoginPresenterTest {
         verify(view).displayLoginSuccess();
     }
 
+    @Test
+    public void shouldDisplayPasswordIncorrectErrorWhenGivenWrongPassword() {
+        Observable<User> observableUser = anObservableUserWith(CORRECT_USERNAME, CORRECT_PASSWORD);
+        when(repository.findBy(CORRECT_USERNAME)).thenReturn(observableUser);
+
+        presenter.login(CORRECT_USERNAME, "wrong password");
+
+        verify(view).displayIncorrectPasswordError();
+    }
+
     private Observable<User> anObservableUserWith(final String username, final String password) {
         return Observable.create(new ObservableOnSubscribe<User>() {
                 @Override
