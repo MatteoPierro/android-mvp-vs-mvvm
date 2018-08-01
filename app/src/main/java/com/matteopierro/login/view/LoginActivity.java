@@ -77,6 +77,11 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     }
 
     @Override
+    public void displayProgressIndicator() {
+        progressView.setVisibility(View.VISIBLE);
+    }
+
+    @Override
     public void clearErrors() {
         usernameLayout.setError("");
         passwordLayout.setError("");

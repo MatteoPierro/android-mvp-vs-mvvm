@@ -12,4 +12,6 @@ public interface LoginView {
     void displayIncorrectPasswordError();
 
     void displayLoginSuccess();
+
+    void displayProgressIndicator();
 }

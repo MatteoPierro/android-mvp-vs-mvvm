@@ -121,6 +121,13 @@ public class LoginPresenterTest {
         verify(view).displayUnknownUsernameError();
     }
 
+    @Test
+    public void shouldDisplayProgressIndicatorWhenLoginAttempted() {
+        presenter.login(A_USERNAME,A_PASSWORD);
+
+        verify(view).displayProgressIndicator();
+    }
+
     private Observable<User> anObservableUserWith(final String username, final String password) {
         return Observable.create(new ObservableOnSubscribe<User>() {
                 @Override

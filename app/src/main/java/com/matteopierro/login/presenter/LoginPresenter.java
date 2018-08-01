@@ -25,6 +25,7 @@ public class LoginPresenter {
             return;
         }
 
+        view.displayProgressIndicator();
         Observable<User> userObservable = repository.findBy(username);
         userObservable.subscribe(new UserObserver(password));
     }
