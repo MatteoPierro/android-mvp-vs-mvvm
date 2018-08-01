@@ -148,6 +148,13 @@ public class LoginPresenterTest {
         verify(view).hideProgressIndicator();
     }
 
+    @Test
+    public void shouldNotDisplayProgressIndicatorWhenCredentialsAreEmpty() {
+        presenter.login(EMPTY_FIELD, EMPTY_FIELD);
+
+        verify(view, never()).displayProgressIndicator();
+    }
+
     private Observable<User> anObservableUserWith(final String username, final String password) {
         return Observable.create(new ObservableOnSubscribe<User>() {
             @Override
