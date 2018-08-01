@@ -138,6 +138,16 @@ public class LoginPresenterTest {
         verify(view).hideProgressIndicator();
     }
 
+    @Test
+    public void shouldHideProgressIndicatorWhenUserIsNotFound() {
+        Observable<User> observableError = Observable.error(new IllegalArgumentException(UNKNOWN_USERNAME));
+        when(repository.findBy(UNKNOWN_USERNAME)).thenReturn(observableError);
+
+        presenter.login(UNKNOWN_USERNAME, A_PASSWORD);
+
+        verify(view).hideProgressIndicator();
+    }
+
     private Observable<User> anObservableUserWith(final String username, final String password) {
         return Observable.create(new ObservableOnSubscribe<User>() {
             @Override

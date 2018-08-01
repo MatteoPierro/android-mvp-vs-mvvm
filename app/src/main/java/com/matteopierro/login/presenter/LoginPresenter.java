@@ -69,6 +69,7 @@ public class LoginPresenter {
 
         @Override
         public void onError(Throwable e) {
+            view.hideProgressIndicator();
             view.displayUnknownUsernameError();
         }
 
