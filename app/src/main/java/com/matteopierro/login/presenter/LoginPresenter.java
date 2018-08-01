@@ -58,8 +58,6 @@ public class LoginPresenter {
 
         @Override
         public void onNext(User user) {
-            view.hideProgressIndicator();
-
             if (user.hasPassword(password)) {
                 view.displayLoginSuccess();
             } else {
@@ -75,7 +73,7 @@ public class LoginPresenter {
 
         @Override
         public void onComplete() {
-
+            view.hideProgressIndicator();
         }
     }
 }
