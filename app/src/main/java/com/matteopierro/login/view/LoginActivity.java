@@ -82,11 +82,13 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
     @Override
     public void displayProgressIndicator() {
         progressView.setVisibility(VISIBLE);
+        loginFormView.setVisibility(GONE);
     }
 
     @Override
     public void hideProgressIndicator() {
         progressView.setVisibility(GONE);
+        loginFormView.setVisibility(VISIBLE);
     }
 
     @Override

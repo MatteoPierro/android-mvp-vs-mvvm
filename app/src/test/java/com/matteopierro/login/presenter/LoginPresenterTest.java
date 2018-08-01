@@ -108,7 +108,7 @@ public class LoginPresenterTest {
         presenter.login(CORRECT_USERNAME, WRONG_PASSWORD);
 
         verify(view).displayIncorrectPasswordError();
-        verify(view,never()).displayLoginSuccess();
+        verify(view, never()).displayLoginSuccess();
     }
 
     @Test
@@ -123,28 +123,28 @@ public class LoginPresenterTest {
 
     @Test
     public void shouldDisplayProgressIndicatorWhenLoginAttempted() {
-        presenter.login(A_USERNAME,A_PASSWORD);
+        presenter.login(A_USERNAME, A_PASSWORD);
 
         verify(view).displayProgressIndicator();
     }
 
     @Test
     public void shouldHideProgressIndicatorWhenUserFound() {
-        Observable<User> observableUser= anObservableUserWith(A_USERNAME, A_PASSWORD);
+        Observable<User> observableUser = anObservableUserWith(A_USERNAME, A_PASSWORD);
         when(repository.findBy(A_USERNAME)).thenReturn(observableUser);
 
-        presenter.login(A_USERNAME,A_PASSWORD);
+        presenter.login(A_USERNAME, A_PASSWORD);
 
         verify(view).hideProgressIndicator();
     }
 
     private Observable<User> anObservableUserWith(final String username, final String password) {
         return Observable.create(new ObservableOnSubscribe<User>() {
-                @Override
-                public void subscribe(ObservableEmitter<User> emitter) {
-                    emitter.onNext(new User(username, password));
-                    emitter.onComplete();
-                }
-            });
+            @Override
+            public void subscribe(ObservableEmitter<User> emitter) {
+                emitter.onNext(new User(username, password));
+                emitter.onComplete();
+            }
+        });
     }
 }
