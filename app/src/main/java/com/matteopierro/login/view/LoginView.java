@@ -14,4 +14,6 @@ public interface LoginView {
     void displayLoginSuccess();
 
     void displayProgressIndicator();
+
+    void hideProgressIndicator();
 }

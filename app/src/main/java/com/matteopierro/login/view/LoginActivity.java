@@ -14,6 +14,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @BindView(R.id.username_layout)
@@ -78,7 +81,12 @@ public class LoginActivity extends AppCompatActivity implements LoginView {
 
     @Override
     public void displayProgressIndicator() {
-        progressView.setVisibility(View.VISIBLE);
+        progressView.setVisibility(VISIBLE);
+    }
+
+    @Override
+    public void hideProgressIndicator() {
+        progressView.setVisibility(GONE);
     }
 
     @Override
